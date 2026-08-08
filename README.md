@@ -1,34 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# repeater
 
-## Getting Started
+入力された文字を繰り返します。
 
-First, run the development server:
+https://repeater.yuyuyuyuyu.dev
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+![repeaterのスクリーンショット](screenshot.png)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 構成
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Kotlin Multiplatform / Compose Multiplatform で作られたWebアプリです。
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+- [shared](./shared/src) — 画面と`repeat`のロジック。全ターゲットで共有します。
+  - [commonMain](./shared/src/commonMain/kotlin) — 全ターゲット共通のコード。
+  - [webMain](./shared/src/webMain/kotlin) / [jvmMain](./shared/src/jvmMain/kotlin) — クリップボードなど、ターゲット固有の実装。
+- [webApp](./webApp/src) — Webアプリのエントリポイント。`index.html`やPWAのアセットもここにあります。
+- [desktopApp](./desktopApp/src) — デスクトップ(JVM)アプリのエントリポイント。ローカルでのデバッグをしやすくするためのもので、配布はしません。
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 実行
 
-## Learn More
+- Webアプリ
+  - Wasmターゲット（高速・モダンブラウザ向け）: `./gradlew :webApp:wasmJsBrowserDevelopmentRun`
+  - JSターゲット（低速・古いブラウザにも対応）: `./gradlew :webApp:jsBrowserDevelopmentRun`
+- デスクトップアプリ
+  - ホットリロード: `./gradlew :desktopApp:hotRun --auto`
+  - 通常実行: `./gradlew :desktopApp:run`
 
-To learn more about Next.js, take a look at the following resources:
+## テスト
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- デスクトップ: `./gradlew :shared:jvmTest`
+- Web
+  - Wasmターゲット: `./gradlew :shared:wasmJsTest`
+  - JSターゲット: `./gradlew :shared:jsTest`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## デプロイ
 
-## Deploy on Vercel
+`main`ブランチへのpushで、[GitHub Actions](./.github/workflows/pages.yml)がWasmターゲットのビルド結果をGitHub Pagesへデプロイします。
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+PWA化は[ComposePWA](https://github.com/yuyuyuyuyu-dev/ComposePWA)が担っていて、`manifest.json`やService Workerは`wasmJsBrowserDistribution`／`jsBrowserDistribution`の実行時に生成・更新されます。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## ライセンス
+
+本体は[MIT License](./LICENSE)です。
+
+同梱しているフォント[Yomogi](https://fonts.google.com/specimen/Yomogi)はSIL Open Font License 1.1で提供されています（[ライセンス全文](./licenses/Yomogi-OFL.txt)）。
