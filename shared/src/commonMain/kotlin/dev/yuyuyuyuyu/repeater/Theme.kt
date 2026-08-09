@@ -10,7 +10,8 @@ import org.jetbrains.compose.resources.Font
 import repeater.shared.generated.resources.Res
 import repeater.shared.generated.resources.yomogi_regular
 
-// 移行前のMUI既定テーマの青と、manifestのtheme_color(#bbdefb)に揃えている
+// Kept close to the blue of the MUI default theme we migrated from,
+// and to the theme_color (#bbdefb) in the manifest
 private val RepeaterColorScheme = lightColorScheme(
     primary = Color(0xFF1976D2),
     onPrimary = Color(0xFFFFFFFF),

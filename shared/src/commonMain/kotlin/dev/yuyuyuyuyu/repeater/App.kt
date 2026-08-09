@@ -51,7 +51,7 @@ private const val MaxMaxLength = 500
 private const val MaxLengthStep = 20
 private const val DefaultMaxLength = 140
 
-// MUI版のContainer maxWidth="xs"に相当する幅
+// Matches the width of Container maxWidth="xs" in the MUI version
 private val ContentMaxWidth = 444.dp
 
 private val MaxLengthMarks = listOf(140, 280)
@@ -111,8 +111,9 @@ fun App() {
                                 } catch (cancellation: CancellationException) {
                                     throw cancellation
                                 } catch (throwable: Throwable) {
-                                    // ブラウザの権限やセキュアコンテキストの制約で書き込みは失敗しうる。
-                                    // 投げっぱなしにするとコンポジションのスコープごと落ちて画面が固まる
+                                    // The browser rejects the write without permission or a
+                                    // secure context. Letting it escape cancels the composition
+                                    // scope, which freezes the whole screen.
                                     "コピーできませんでした"
                                 }
 

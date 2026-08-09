@@ -24,11 +24,10 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
-          # gradle/gradle-daemon-jvm.propertiesのtoolchainVendor/Versionに合わせている
           distribution: zulu
           java-version: "21"
 
-      # ComposePWAがnpx workboxを実行するため
+      # ComposePWA runs npx workbox
       - name: Setup Node
         uses: actions/setup-node@v7
         with:

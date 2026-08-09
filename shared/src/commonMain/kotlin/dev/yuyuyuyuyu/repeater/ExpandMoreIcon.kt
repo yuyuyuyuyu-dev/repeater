@@ -6,8 +6,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-// アイコン1つのためにmaterial-iconsを依存に加えたくないので、
-// Material Symbolsのexpand_moreと同じパスをここで持っている
+// Holding the path of the Material Symbols expand_more here keeps
+// material-icons out of the dependencies for the sake of a single icon
 internal val ExpandMoreIcon: ImageVector by lazy {
     ImageVector.Builder(
         name = "ExpandMore",
