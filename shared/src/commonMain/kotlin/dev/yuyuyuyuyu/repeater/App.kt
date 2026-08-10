@@ -46,44 +46,49 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
-private const val MinMaxLength = 20
-private const val MaxMaxLength = 500
-private const val MaxLengthStep = 20
-private const val DefaultMaxLength = 140
+private const val MIN_MAX_LENGTH = 20
+private const val MAX_MAX_LENGTH = 500
+private const val MAX_LENGTH_STEP = 20
+private const val DEFAULT_MAX_LENGTH = 140
 
 // Matches the width of Container maxWidth="xs" in the MUI version
 private val ContentMaxWidth = 444.dp
 
 private val MaxLengthMarks = listOf(140, 280)
 
+private const val EXPANDED_ICON_ROTATION = 180f
+
 @Composable
 @Preview
 fun App() {
     RepeaterTheme {
         var unprocessedText by remember { mutableStateOf("") }
-        var processedTextMaxLength by remember { mutableIntStateOf(DefaultMaxLength) }
+        var processedTextMaxLength by remember { mutableIntStateOf(DEFAULT_MAX_LENGTH) }
         var cramToTheMax by remember { mutableStateOf(false) }
-        val processedText = remember(unprocessedText, processedTextMaxLength, cramToTheMax) {
-            repeat(unprocessedText, processedTextMaxLength, cramToTheMax)
-        }
+        val processedText =
+            remember(unprocessedText, processedTextMaxLength, cramToTheMax) {
+                repeat(unprocessedText, processedTextMaxLength, cramToTheMax)
+            }
 
         val snackbarHostState = remember { SnackbarHostState() }
         val coroutineScope = rememberCoroutineScope()
 
         Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { contentPadding ->
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(contentPadding)
-                    .safeContentPadding()
-                    .verticalScroll(rememberScrollState()),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(contentPadding)
+                        .safeContentPadding()
+                        .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Column(
-                    modifier = Modifier
-                        .widthIn(max = ContentMaxWidth)
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    modifier =
+                        Modifier
+                            .widthIn(max = ContentMaxWidth)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     OutlinedTextField(
@@ -105,17 +110,19 @@ fun App() {
                     Button(
                         onClick = {
                             coroutineScope.launch {
-                                val message = try {
-                                    copyToClipboard(processedText)
-                                    "コピーしました"
-                                } catch (cancellation: CancellationException) {
-                                    throw cancellation
-                                } catch (throwable: Throwable) {
-                                    // The browser rejects the write without permission or a
-                                    // secure context. Letting it escape cancels the composition
-                                    // scope, which freezes the whole screen.
-                                    "コピーできませんでした"
-                                }
+                                @Suppress("TooGenericExceptionCaught", "SwallowedException")
+                                val message =
+                                    try {
+                                        copyToClipboard(processedText)
+                                        "コピーしました"
+                                    } catch (cancellation: CancellationException) {
+                                        throw cancellation
+                                    } catch (throwable: Throwable) {
+                                        // The browser rejects the write without permission or a
+                                        // secure context. Letting it escape cancels the composition
+                                        // scope, which freezes the whole screen.
+                                        "コピーできませんでした"
+                                    }
 
                                 snackbarHostState.showSnackbar(
                                     message = message,
@@ -141,14 +148,15 @@ private fun AdvancedSettings(
     onMaxLengthChange: (Int) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
-    val expandIconRotation by animateFloatAsState(if (expanded) 180f else 0f)
+    val expandIconRotation by animateFloatAsState(if (expanded) EXPANDED_ICON_ROTATION else 0f)
 
     Card(modifier = Modifier.fillMaxWidth()) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = !expanded }
-                .padding(horizontal = 16.dp, vertical = 12.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .clickable { expanded = !expanded }
+                    .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
@@ -169,13 +177,14 @@ private fun AdvancedSettings(
                 verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .toggleable(
-                            value = cramToTheMax,
-                            role = Role.Switch,
-                            onValueChange = onCramToTheMaxChange,
-                        ),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .toggleable(
+                                value = cramToTheMax,
+                                role = Role.Switch,
+                                onValueChange = onCramToTheMaxChange,
+                            ),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Switch(checked = cramToTheMax, onCheckedChange = null)
@@ -194,14 +203,14 @@ private fun AdvancedSettings(
                 Slider(
                     value = maxLength.toFloat(),
                     onValueChange = { onMaxLengthChange(it.roundToInt()) },
-                    valueRange = MinMaxLength.toFloat()..MaxMaxLength.toFloat(),
-                    steps = (MaxMaxLength - MinMaxLength) / MaxLengthStep - 1,
+                    valueRange = MIN_MAX_LENGTH.toFloat()..MAX_MAX_LENGTH.toFloat(),
+                    steps = (MAX_MAX_LENGTH - MIN_MAX_LENGTH) / MAX_LENGTH_STEP - 1,
                     modifier = Modifier.fillMaxWidth(),
                 )
 
                 SliderMarks(
                     marks = MaxLengthMarks,
-                    valueRange = MinMaxLength.toFloat()..MaxMaxLength.toFloat(),
+                    valueRange = MIN_MAX_LENGTH.toFloat()..MAX_MAX_LENGTH.toFloat(),
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

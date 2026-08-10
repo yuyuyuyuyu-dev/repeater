@@ -1,0 +1,5 @@
+root = true
+
+[*.{kt,kts}]
+# Composables are named after the UI element they emit, per the Compose API guidelines
+ktlint_function_naming_ignore_when_annotated_with = Composable

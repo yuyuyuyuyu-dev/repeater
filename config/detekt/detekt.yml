@@ -1,0 +1,18 @@
+# buildUponDefaultConfig is on, so only the deviations from detekt's defaults belong here.
+
+complexity:
+  LongMethod:
+    # A composable's length tracks the size of the UI tree it describes, not its complexity
+    ignoreAnnotated: ['Composable']
+
+naming:
+  FunctionNaming:
+    # The Compose API guidelines name composables after the UI element they emit
+    ignoreAnnotated: ['Composable']
+
+style:
+  MagicNumber:
+    # Color literals and vector path coordinates say more inline than behind a name
+    ignorePropertyDeclaration: true
+  ReturnCount:
+    excludeGuardClauses: true

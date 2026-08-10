@@ -12,16 +12,17 @@ import repeater.shared.generated.resources.yomogi_regular
 
 // Kept close to the blue of the MUI default theme we migrated from,
 // and to the theme_color (#bbdefb) in the manifest
-private val RepeaterColorScheme = lightColorScheme(
-    primary = Color(0xFF1976D2),
-    onPrimary = Color(0xFFFFFFFF),
-    primaryContainer = Color(0xFFBBDEFB),
-    onPrimaryContainer = Color(0xFF0D47A1),
-    secondary = Color(0xFF546E7A),
-    onSecondary = Color(0xFFFFFFFF),
-    secondaryContainer = Color(0xFFCFD8DC),
-    onSecondaryContainer = Color(0xFF263238),
-)
+private val RepeaterColorScheme =
+    lightColorScheme(
+        primary = Color(0xFF1976D2),
+        onPrimary = Color(0xFFFFFFFF),
+        primaryContainer = Color(0xFFBBDEFB),
+        onPrimaryContainer = Color(0xFF0D47A1),
+        secondary = Color(0xFF546E7A),
+        onSecondary = Color(0xFFFFFFFF),
+        secondaryContainer = Color(0xFFCFD8DC),
+        onSecondaryContainer = Color(0xFF263238),
+    )
 
 @Composable
 fun RepeaterTheme(content: @Composable () -> Unit) {
@@ -34,20 +35,21 @@ fun RepeaterTheme(content: @Composable () -> Unit) {
     )
 }
 
-private fun Typography.withFontFamily(fontFamily: FontFamily) = Typography(
-    displayLarge = displayLarge.copy(fontFamily = fontFamily),
-    displayMedium = displayMedium.copy(fontFamily = fontFamily),
-    displaySmall = displaySmall.copy(fontFamily = fontFamily),
-    headlineLarge = headlineLarge.copy(fontFamily = fontFamily),
-    headlineMedium = headlineMedium.copy(fontFamily = fontFamily),
-    headlineSmall = headlineSmall.copy(fontFamily = fontFamily),
-    titleLarge = titleLarge.copy(fontFamily = fontFamily),
-    titleMedium = titleMedium.copy(fontFamily = fontFamily),
-    titleSmall = titleSmall.copy(fontFamily = fontFamily),
-    bodyLarge = bodyLarge.copy(fontFamily = fontFamily),
-    bodyMedium = bodyMedium.copy(fontFamily = fontFamily),
-    bodySmall = bodySmall.copy(fontFamily = fontFamily),
-    labelLarge = labelLarge.copy(fontFamily = fontFamily),
-    labelMedium = labelMedium.copy(fontFamily = fontFamily),
-    labelSmall = labelSmall.copy(fontFamily = fontFamily),
-)
+private fun Typography.withFontFamily(fontFamily: FontFamily) =
+    Typography(
+        displayLarge = displayLarge.copy(fontFamily = fontFamily),
+        displayMedium = displayMedium.copy(fontFamily = fontFamily),
+        displaySmall = displaySmall.copy(fontFamily = fontFamily),
+        headlineLarge = headlineLarge.copy(fontFamily = fontFamily),
+        headlineMedium = headlineMedium.copy(fontFamily = fontFamily),
+        headlineSmall = headlineSmall.copy(fontFamily = fontFamily),
+        titleLarge = titleLarge.copy(fontFamily = fontFamily),
+        titleMedium = titleMedium.copy(fontFamily = fontFamily),
+        titleSmall = titleSmall.copy(fontFamily = fontFamily),
+        bodyLarge = bodyLarge.copy(fontFamily = fontFamily),
+        bodyMedium = bodyMedium.copy(fontFamily = fontFamily),
+        bodySmall = bodySmall.copy(fontFamily = fontFamily),
+        labelLarge = labelLarge.copy(fontFamily = fontFamily),
+        labelMedium = labelMedium.copy(fontFamily = fontFamily),
+        labelSmall = labelSmall.copy(fontFamily = fontFamily),
+    )
