@@ -12,6 +12,7 @@ import repeater.shared.generated.resources.yomogi_regular
 
 // Kept close to the blue of the MUI default theme we migrated from,
 // and to the theme_color (#bbdefb) in the manifest
+@Suppress("MagicNumber")
 private val RepeaterColorScheme =
     lightColorScheme(
         primary = Color(0xFF1976D2),

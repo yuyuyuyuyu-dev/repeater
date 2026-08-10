@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 
 // Holding the path of the Material Symbols expand_more here keeps
 // material-icons out of the dependencies for the sake of a single icon
+@Suppress("MagicNumber")
 internal val ExpandMoreIcon: ImageVector by lazy {
     ImageVector
         .Builder(

@@ -54,6 +54,7 @@ private const val DEFAULT_MAX_LENGTH = 140
 // Matches the width of Container maxWidth="xs" in the MUI version
 private val ContentMaxWidth = 444.dp
 
+@Suppress("MagicNumber")
 private val MaxLengthMarks = listOf(140, 280)
 
 private const val EXPANDED_ICON_ROTATION = 180f

@@ -11,8 +11,5 @@ naming:
     ignoreAnnotated: ['Composable']
 
 style:
-  MagicNumber:
-    # Color literals and vector path coordinates say more inline than behind a name
-    ignorePropertyDeclaration: true
   ReturnCount:
     excludeGuardClauses: true
