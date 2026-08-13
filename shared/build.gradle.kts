@@ -1,3 +1,4 @@
+import org.jetbrains.compose.ComposeBuildConfig
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -22,7 +23,9 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
-            implementation(libs.compose.material3)
+            // material3 is versioned separately from the rest of Compose Multiplatform,
+            // so the version the plugin was built against is the one to use
+            implementation("org.jetbrains.compose.material3:material3:${ComposeBuildConfig.composeMaterial3Version}")
             implementation(libs.compose.ui)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
