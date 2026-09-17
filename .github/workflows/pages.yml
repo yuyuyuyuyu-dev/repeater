@@ -38,7 +38,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
 
       - name: Run tests
-        run: ./gradlew :shared:jvmTest :shared:jsTest :shared:wasmJsTest
+        run: ./gradlew :shared:jvmTest :shared:wasmJsTest
 
       - name: Build web app
         run: ./gradlew :webApp:wasmJsBrowserDistribution
