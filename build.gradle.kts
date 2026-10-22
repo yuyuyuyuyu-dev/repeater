@@ -28,9 +28,8 @@ allprojects {
 
     extensions.configure<KtlintExtension> {
         filter {
-            // Compose generates its resource accessors into the build directory and
-            // registers them as source sets, which ktlint would otherwise pick up
-            exclude { it.file.invariantSeparatorsPath.contains("/build/") }
+            val buildPath = layout.buildDirectory.get().asFile.path
+            exclude { it.file.path.startsWith(buildPath) }
         }
     }
 }
