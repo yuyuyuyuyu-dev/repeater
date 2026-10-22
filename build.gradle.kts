@@ -14,6 +14,10 @@ plugins {
     alias(libs.plugins.versionCatalogUpdate)
 }
 
+val ktlintVersion =
+    libs.versions.ktlint.cli
+        .get()
+
 allprojects {
     apply(plugin = "io.gitlab.arturbosch.detekt")
     apply(plugin = "org.jlleitschuh.gradle.ktlint")
@@ -27,8 +31,12 @@ allprojects {
     }
 
     extensions.configure<KtlintExtension> {
+        version = ktlintVersion
         filter {
-            val buildPath = layout.buildDirectory.get().asFile.path
+            val buildPath =
+                layout.buildDirectory
+                    .get()
+                    .asFile.path + File.separator
             exclude { it.file.path.startsWith(buildPath) }
         }
     }
