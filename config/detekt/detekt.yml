@@ -3,12 +3,12 @@
 complexity:
   LongMethod:
     # A composable's length tracks the size of the UI tree it describes, not its complexity
-    ignoreAnnotated: ['Composable']
+    ignoreAnnotated: ["Composable"]
 
 naming:
   FunctionNaming:
     # The Compose API guidelines name composables after the UI element they emit
-    ignoreAnnotated: ['Composable']
+    ignoreAnnotated: ["Composable"]
 
 style:
   ReturnCount:

@@ -1,6 +1,6 @@
 This is a Kotlin Multiplatform project targeting Web, Desktop (JVM).
 
-* [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
+- [/shared](./shared/src) is for code that will be shared across your Compose Multiplatform applications.
   It contains several subfolders:
   - [commonMain](./shared/src/commonMain/kotlin) is for code that’s common for all targets.
   - Other folders are for Kotlin code that will be compiled for only the platform indicated in the folder name.
