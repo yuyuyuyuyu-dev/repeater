@@ -11,9 +11,9 @@ fun repeat(
 
     val times = resultMaxLength / repeatText.length
 
-    if (cramToTheMax) {
-        return repeatText.repeat(times + 1).take(resultMaxLength)
+    return if (cramToTheMax) {
+        repeatText.repeat(times + 1).take(resultMaxLength)
+    } else {
+        repeatText.repeat(times)
     }
-
-    return repeatText.repeat(times)
 }
