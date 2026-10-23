@@ -72,7 +72,6 @@ fun App() {
             }
 
         val snackbarHostState = remember { SnackbarHostState() }
-        val coroutineScope = rememberCoroutineScope()
 
         Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { contentPadding ->
             Column(
@@ -108,33 +107,11 @@ fun App() {
 
                     Text(processedText)
 
-                    Button(
-                        onClick = {
-                            coroutineScope.launch {
-                                @Suppress("TooGenericExceptionCaught", "SwallowedException")
-                                val message =
-                                    try {
-                                        copyToClipboard(processedText)
-                                        "コピーしました"
-                                    } catch (cancellation: CancellationException) {
-                                        throw cancellation
-                                    } catch (throwable: Throwable) {
-                                        // The browser rejects the write without permission or a
-                                        // secure context. Letting it escape cancels the composition
-                                        // scope, which freezes the whole screen.
-                                        "コピーできませんでした"
-                                    }
-
-                                snackbarHostState.showSnackbar(
-                                    message = message,
-                                    duration = SnackbarDuration.Short,
-                                )
-                            }
-                        },
+                    CopyButton(
+                        text = processedText,
+                        snackbarHostState = snackbarHostState,
                         modifier = Modifier.fillMaxWidth(),
-                    ) {
-                        Text("クリップボードにコピー")
-                    }
+                    )
                 }
             }
         }
@@ -173,49 +150,64 @@ private fun AdvancedSettings(
         }
 
         AnimatedVisibility(expanded) {
-            Column(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-            ) {
-                Row(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .toggleable(
-                                value = cramToTheMax,
-                                role = Role.Switch,
-                                onValueChange = onCramToTheMaxChange,
-                            ),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Switch(checked = cramToTheMax, onCheckedChange = null)
-                    Spacer(Modifier.width(8.dp))
-                    Text("上限いっぱいまで文字を詰め込む")
-                }
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text("文字数", modifier = Modifier.weight(1f))
-                    Text("${maxLength}文字", style = MaterialTheme.typography.labelLarge)
-                }
-
-                Slider(
-                    value = maxLength.toFloat(),
-                    onValueChange = { onMaxLengthChange(it.roundToInt()) },
-                    valueRange = MIN_MAX_LENGTH.toFloat()..MAX_MAX_LENGTH.toFloat(),
-                    steps = (MAX_MAX_LENGTH - MIN_MAX_LENGTH) / MAX_LENGTH_STEP - 1,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-
-                SliderMarks(
-                    marks = MaxLengthMarks,
-                    valueRange = MIN_MAX_LENGTH.toFloat()..MAX_MAX_LENGTH.toFloat(),
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
+            AdvancedSettingsContent(
+                cramToTheMax = cramToTheMax,
+                onCramToTheMaxChange = onCramToTheMaxChange,
+                maxLength = maxLength,
+                onMaxLengthChange = onMaxLengthChange,
+            )
         }
+    }
+}
+
+@Composable
+private fun AdvancedSettingsContent(
+    cramToTheMax: Boolean,
+    onCramToTheMaxChange: (Boolean) -> Unit,
+    maxLength: Int,
+    onMaxLengthChange: (Int) -> Unit,
+) {
+    Column(
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Row(
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .toggleable(
+                        value = cramToTheMax,
+                        role = Role.Switch,
+                        onValueChange = onCramToTheMaxChange,
+                    ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Switch(checked = cramToTheMax, onCheckedChange = null)
+            Spacer(Modifier.width(8.dp))
+            Text("上限いっぱいまで文字を詰め込む")
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text("文字数", modifier = Modifier.weight(1f))
+            Text("${maxLength}文字", style = MaterialTheme.typography.labelLarge)
+        }
+
+        Slider(
+            value = maxLength.toFloat(),
+            onValueChange = { onMaxLengthChange(it.roundToInt()) },
+            valueRange = MIN_MAX_LENGTH.toFloat()..MAX_MAX_LENGTH.toFloat(),
+            steps = (MAX_MAX_LENGTH - MIN_MAX_LENGTH) / MAX_LENGTH_STEP - 1,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        SliderMarks(
+            marks = MaxLengthMarks,
+            valueRange = MIN_MAX_LENGTH.toFloat()..MAX_MAX_LENGTH.toFloat(),
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 
@@ -248,5 +240,42 @@ private fun SliderMarks(
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun CopyButton(
+    text: String,
+    snackbarHostState: SnackbarHostState,
+    modifier: Modifier = Modifier,
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    Button(
+        onClick = {
+            coroutineScope.launch {
+                @Suppress("TooGenericExceptionCaught", "SwallowedException")
+                val message =
+                    try {
+                        copyToClipboard(text)
+                        "コピーしました"
+                    } catch (cancellation: CancellationException) {
+                        throw cancellation
+                    } catch (throwable: Throwable) {
+                        // The browser rejects the write without permission or a
+                        // secure context. Letting it escape cancels the composition
+                        // scope, which freezes the whole screen.
+                        "コピーできませんでした"
+                    }
+
+                snackbarHostState.showSnackbar(
+                    message = message,
+                    duration = SnackbarDuration.Short,
+                )
+            }
+        },
+        modifier = modifier,
+    ) {
+        Text("クリップボードにコピー")
     }
 }
