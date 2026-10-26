@@ -4,6 +4,25 @@ plugins {
     alias(libs.plugins.kotlinJvm)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.detekt)
+    alias(libs.plugins.ktlint)
+}
+
+detekt {
+    buildUponDefaultConfig = true
+}
+
+ktlint {
+    version =
+        libs.versions.ktlint.cli
+            .get()
+    filter {
+        val buildPath =
+            layout.buildDirectory
+                .get()
+                .asFile.path + File.separator
+        exclude { it.file.path.startsWith(buildPath) }
+    }
 }
 
 dependencies {
