@@ -5,11 +5,11 @@ composePwa = "0.7.0"
 detekt = "1.23.8"
 junit = "4.13.2"
 kotlin = "2.4.21"
-kotlin-wrappers = "2026.10.4"
+kotlin-wrappers = "2026.10.5"
 kotlinx-coroutines = "1.11.0"
 ktlint = "14.2.0"
 ktlint-cli = "1.8.0"
-versionCatalogUpdate = "1.1.1"
+versionCatalogUpdate = "1.1.2"
 
 [libraries]
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
