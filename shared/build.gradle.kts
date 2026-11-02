@@ -28,8 +28,6 @@ ktlint {
 }
 
 kotlin {
-    jvm()
-
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         browser()
