@@ -1,5 +1,6 @@
-package dev.yuyuyuyuyu.repeater
+package dev.yuyuyuyuyu.repeater.nonspec
 
+import dev.yuyuyuyuyu.repeater.repeat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
