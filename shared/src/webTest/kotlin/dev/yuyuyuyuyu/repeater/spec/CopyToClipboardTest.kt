@@ -15,7 +15,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalTestApi::class)
 class CopyToClipboardTest {
     @Test
-    fun `アプリを開いてそのままKotlinと入力してコピーすると140文字に収まるだけ繰り返したKotlinがクリップボードに入る`() =
+    fun `should copy Kotlin repeated within 140 characters when Kotlin is typed right after opening the app`() =
         runComposeUiTest {
             // Arrange
             setContent { App() }
