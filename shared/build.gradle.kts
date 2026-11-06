@@ -49,6 +49,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+            implementation(libs.compose.uiTest)
         }
         webMain.dependencies {
             implementation(libs.wrappers.browser)
