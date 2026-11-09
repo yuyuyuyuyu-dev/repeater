@@ -109,6 +109,7 @@ fun App() {
 
                     CopyButton(
                         text = processedText,
+                        enabled = unprocessedText.length <= processedTextMaxLength,
                         snackbarHostState = snackbarHostState,
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -246,6 +247,7 @@ private fun SliderMarks(
 @Composable
 private fun CopyButton(
     text: String,
+    enabled: Boolean,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
@@ -274,6 +276,7 @@ private fun CopyButton(
                 )
             }
         },
+        enabled = enabled,
         modifier = modifier,
     ) {
         Text("クリップボードにコピー")
