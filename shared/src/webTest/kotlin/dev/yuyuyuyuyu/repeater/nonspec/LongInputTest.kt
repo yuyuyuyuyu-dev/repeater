@@ -4,6 +4,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -22,7 +23,7 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalTestApi::class)
 class LongInputTest {
     @Test
-    fun `should disable the copy button when the input is longer than 140 characters`() =
+    fun `should show an error and disable the copy button when the input is longer than 140 characters`() =
         runComposeUiTest {
             // Arrange
             navigator.clipboard.writeText("not copied yet")
@@ -35,12 +36,13 @@ class LongInputTest {
             val clipboardText = navigator.clipboard.readText()
 
             // Assert
+            onNodeWithText("140文字以内で入力してください").assertIsDisplayed()
             onNodeWithText("クリップボードにコピー").assertIsNotEnabled()
             assertEquals("not copied yet", clipboardText)
         }
 
     @Test
-    fun `should disable the copy button for a longer input even when the cram switch is on`() =
+    fun `should hide the result and disable the copy button for a longer input even when cramming`() =
         runComposeUiTest {
             // Arrange
             navigator.clipboard.writeText("not copied yet")
@@ -55,6 +57,8 @@ class LongInputTest {
             val clipboardText = navigator.clipboard.readText()
 
             // Assert
+            onNodeWithText("140文字以内で入力してください").assertIsDisplayed()
+            onNodeWithText("Kotlin".repeat(24).take(140)).assertDoesNotExist()
             onNodeWithText("クリップボードにコピー").assertIsNotEnabled()
             assertEquals("not copied yet", clipboardText)
         }
@@ -73,6 +77,7 @@ class LongInputTest {
             val clipboardText = navigator.clipboard.readText()
 
             // Assert
+            onNodeWithText("140文字以内で入力してください").assertDoesNotExist()
             assertEquals("Kotlin".repeat(23) + "Ko", clipboardText)
         }
 
@@ -93,6 +98,7 @@ class LongInputTest {
             val clipboardText = navigator.clipboard.readText()
 
             // Assert
+            onNodeWithText("500文字以内で入力してください").assertDoesNotExist()
             assertEquals("Kotlin".repeat(72), clipboardText)
         }
 }
