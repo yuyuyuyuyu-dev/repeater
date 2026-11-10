@@ -1,11 +1,12 @@
-package dev.yuyuyuyuyu.repeater
+package dev.yuyuyuyuyu.repeater.nonspec
 
+import dev.yuyuyuyuyu.repeater.repeat
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class RepeatTest {
     @Test
-    fun `空文字列を渡すと空文字列を返す`() {
+    fun `should return an empty string for an empty string`() {
         // Act
         val actual = repeat("", 140, false)
 
@@ -14,7 +15,7 @@ class RepeatTest {
     }
 
     @Test
-    fun `上限いっぱいまで詰め込む場合でも空文字列を渡すと空文字列を返す`() {
+    fun `should return an empty string for an empty string even when cramming to the max`() {
         // Act
         val actual = repeat("", 140, true)
 
@@ -23,7 +24,7 @@ class RepeatTest {
     }
 
     @Test
-    fun `上限を超えない範囲で繰り返す`() {
+    fun `should repeat without exceeding the max length`() {
         // Act
         val actual = repeat("いちご", 140, false)
 
@@ -32,7 +33,7 @@ class RepeatTest {
     }
 
     @Test
-    fun `上限いっぱいまで詰め込む`() {
+    fun `should cram up to the max length`() {
         // Act
         val actual = repeat("いちご", 140, true)
 

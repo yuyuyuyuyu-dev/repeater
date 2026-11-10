@@ -70,6 +70,7 @@ fun App() {
             remember(unprocessedText, processedTextMaxLength, cramToTheMax) {
                 repeat(unprocessedText, processedTextMaxLength, cramToTheMax)
             }
+        val inputTooLong = unprocessedText.length > processedTextMaxLength
 
         val snackbarHostState = remember { SnackbarHostState() }
 
@@ -91,11 +92,11 @@ fun App() {
                             .padding(horizontal = 16.dp, vertical = 8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    OutlinedTextField(
+                    RepeatTextField(
                         value = unprocessedText,
                         onValueChange = { unprocessedText = it },
-                        label = { Text("繰り返したい文字列を入力してください") },
-                        modifier = Modifier.fillMaxWidth(),
+                        maxLength = processedTextMaxLength,
+                        tooLong = inputTooLong,
                     )
 
                     AdvancedSettings(
@@ -105,10 +106,13 @@ fun App() {
                         onMaxLengthChange = { processedTextMaxLength = it },
                     )
 
-                    Text(processedText)
+                    if (!inputTooLong) {
+                        Text(processedText)
+                    }
 
                     CopyButton(
                         text = processedText,
+                        enabled = !inputTooLong,
                         snackbarHostState = snackbarHostState,
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -116,6 +120,28 @@ fun App() {
             }
         }
     }
+}
+
+@Composable
+private fun RepeatTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    maxLength: Int,
+    tooLong: Boolean,
+) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        label = { Text("繰り返したい文字列を入力してください") },
+        isError = tooLong,
+        supportingText =
+            if (tooLong) {
+                { Text("${maxLength}文字以内で入力してください") }
+            } else {
+                null
+            },
+        modifier = Modifier.fillMaxWidth(),
+    )
 }
 
 @Composable
@@ -246,6 +272,7 @@ private fun SliderMarks(
 @Composable
 private fun CopyButton(
     text: String,
+    enabled: Boolean,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier = Modifier,
 ) {
@@ -274,6 +301,7 @@ private fun CopyButton(
                 )
             }
         },
+        enabled = enabled,
         modifier = modifier,
     ) {
         Text("クリップボードにコピー")
